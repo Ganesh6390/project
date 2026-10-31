@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1220">
+  <title>Predictive City Arteries | Traffic Intelligence</title>
+  <link rel="stylesheet" href="/static/enhanced_style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#">
+        <span class="brand-mark">CA</span>
+        <span><strong>City Arteries</strong><small>TRAFFIC INTELLIGENCE</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <a class="nav-item active" href="#overview"><span>▦</span> Overview</a>
+      <a class="nav-item" href="#analysis"><span>◉</span> Video analysis</a>
+      <a class="nav-item" href="#insights"><span>⌁</span> Traffic insights</a>
+      <div class="sidebar-note">
+        <span class="status-dot"></span>
+        <div><strong>Analysis mode</strong><small>Uploaded video processing</small></div>
+      </div>
+      <div class="sidebar-footer">PREDICTIVE CITY ARTERIES SYSTEM<br>Dynamic Traffic Flow Optimization</div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">SMART URBAN MOBILITY PLATFORM</div>
+          <h1>Traffic monitoring dashboard</h1>
+          <p>Detect vehicles, understand lane demand and generate signal recommendations.</p>
+        </div>
+        <div class="topbar-right">
+          <span class="system-pill"><span class="status-dot"></span> SYSTEM READY</span>
+          <div class="avatar">CA</div>
+        </div>
+      </header>
+
+      <section id="overview" class="welcome-panel">
+        <div>
+          <div class="eyebrow light">INTELLIGENT ROADWAY ANALYTICS</div>
+          <h2>See traffic clearly.<br><em>Respond intelligently.</em></h2>
+          <p>Upload a road-traffic video to detect vehicles, measure lane activity and calculate suggested signal timings.</p>
+          <a class="primary-link" href="#analysis">Start video analysis <span>→</span></a>
+        </div>
+        <div class="road-art" aria-hidden="true">
+          <div class="road-glow"></div><div class="road">
+            <i></i><i></i><i></i><i></i>
+            <b class="car car-one"></b><b class="car car-two"></b><b class="car car-three"></b>
+          </div>
+          <span class="art-tag tag-a">YOLO DETECTION</span><span class="art-tag tag-b">LANE ANALYTICS</span>
+        </div>
+      </section>
+
+      <section class="section-heading">
+        <div><div class="eyebrow">LIVE ANALYSIS SUMMARY</div><h2>Traffic overview</h2></div>
+        <span class="muted" id="analysisState">Waiting for a video</span>
+      </section>
+
+      <section class="metric-grid">
+        <article class="metric-card"><div class="metric-top"><span>Total vehicles</span><span class="metric-icon">▣</span></div><strong id="totalVehicles">—</strong><small>Unique tracked IDs in processed video*</small></article>
+        <article class="metric-card"><div class="metric-top"><span>Average speed</span><span class="metric-icon">↗</span></div><strong><span id="avgSpeed">—</span><small class="unit"> km/h</small></strong><small>Estimated from frame movement</small></article>
+        <article class="metric-card"><div class="metric-top"><span>Maximum speed</span><span class="metric-icon">⌁</span></div><strong><span id="maxSpeed">—</span><small class="unit"> km/h</small></strong><small>Highest estimated movement speed</small></article>
+        <article class="metric-card"><div class="metric-top"><span>Frames analysed</span><span class="metric-icon">▤</span></div><strong id="totalFrames">—</strong><small>Frames processed by the model</small></article>
+      </section>
+
+      <section id="analysis" class="analysis-layout">
+        <article class="panel upload-panel">
+          <div class="panel-heading"><div><div class="eyebrow">VIDEO INPUT</div><h2>Start an analysis</h2></div><span class="step-number">01</span></div>
+          <p class="panel-description">Choose a road-traffic video. The backend will process it using your trained YOLO model.</p>
+          <label class="drop-zone" id="dropZone" for="videoFile">
+            <span class="upload-icon">↑</span>
+            <strong>Drop your video here</strong>
+            <span>or <u>browse files</u></span>
+            <small>Supported: MP4, AVI, MOV, MKV</small>
+            <input id="videoFile" type="file" accept="video/mp4,video/avi,video/quicktime,video/x-matroska,.mp4,.avi,.mov,.mkv">
+          </label>
+          <div class="file-row" id="fileRow" hidden><span class="file-icon">▶</span><div class="file-info"><strong id="fileName">No file selected</strong><small id="fileSize"></small></div><button id="removeFile" class="icon-button" type="button" aria-label="Remove file">×</button></div>
+          <button id="startButton" class="primary-button" type="button" disabled><span>▶</span> Upload &amp; analyse video</button>
+          <div class="progress-wrap" id="progressWrap" hidden><div class="progress-meta"><span id="progressLabel">Processing video…</span><span id="progressPercent">0%</span></div><div class="progress-track"><div id="progressBar"></div></div></div>
+          <p class="message" id="message" role="status">Select a video to begin.</p>
+        </article>
+
+        <article class="panel video-panel">
+          <div class="panel-heading"><div><div class="eyebrow">MODEL OUTPUT</div><h2>Detection preview</h2></div><span class="live-label"><i></i><span id="previewStatus">STANDBY</span></span></div>
+          <div class="preview-frame" id="previewFrame">
+            <div class="preview-placeholder"><span class="preview-symbol">▣</span><strong>Detection preview will appear here</strong><small>Upload a video and start analysis</small></div>
+            <img id="processedFrame" alt="YOLO processed traffic video frame" hidden>
+          </div>
+          <div class="preview-meta"><span>FRAME <strong id="frameNumber">—</strong></span><span>DETECTIONS <strong id="frameDetections">—</strong></span><span>AVG SPEED <strong id="frameSpeed">—</strong></span></div>
+        </article>
+      </section>
+
+      <section id="insights" class="insights-layout">
+        <article class="panel lane-panel">
+          <div class="panel-heading"><div><div class="eyebrow">ROAD DISTRIBUTION</div><h2>Lane activity</h2></div><span class="step-number">02</span></div>
+          <p class="panel-description">Accumulated detections across the processed video.</p>
+          <div class="lane-stat"><div><span class="lane-dot left-dot"></span><strong>Left lane</strong></div><strong id="leftCount">—</strong></div>
+          <div class="bar-track"><div class="bar-fill left-fill" id="leftBar"></div></div>
+          <div class="lane-stat"><div><span class="lane-dot right-dot"></span><strong>Right lane</strong></div><strong id="rightCount">—</strong></div>
+          <div class="bar-track"><div class="bar-fill right-fill" id="rightBar"></div></div>
+          <div class="lane-footer"><span>Most used lane</span><strong id="mostUsedLane">—</strong></div>
+        </article>
+
+        <article class="panel signal-panel">
+          <div class="panel-heading"><div><div class="eyebrow">DYNAMIC SIGNAL GUIDANCE</div><h2>Suggested green time</h2></div><span class="step-number">03</span></div>
+          <p class="panel-description">Recommendations calculated from the lane vehicle estimates.</p>
+          <div class="signal-grid">
+            <div class="signal-card"><div class="signal-head"><span class="signal-light green"></span><span>LEFT LANE</span></div><strong><span id="leftSignal">—</span><small> sec</small></strong><small>Suggested green duration</small></div>
+            <div class="signal-card"><div class="signal-head"><span class="signal-light green"></span><span>RIGHT LANE</span></div><strong><span id="rightSignal">—</span><small> sec</small></strong><small>Suggested green duration</small></div>
+          </div>
+          <div class="recommendation-note"><span>✦</span><p id="signalNote">Signal recommendations will be displayed after analysis.</p></div>
+        </article>
+      </section>
+
+      <section class="panel report-panel">
+        <div class="report-copy"><div class="eyebrow">EXPORT RESULTS</div><h2>Traffic decision report</h2><p>Download the CSV summary generated by the FastAPI backend for further analysis and documentation.</p></div>
+        <div class="report-action"><span id="reportStatus">No report generated</span><a id="downloadReport" class="secondary-button disabled" href="#" aria-disabled="true">↓ Download CSV</a></div>
+      </section>
+
+      <footer>Predictive City Arteries System <span>•</span> Video-based traffic analysis <span>•</span> YOLO + FastAPI</footer>
+    </main>
+  </div>
+  <script src="/static/enhanced_script.js"></script>
+</body>
+</html>
